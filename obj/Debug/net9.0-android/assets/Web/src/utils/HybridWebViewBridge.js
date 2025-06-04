@@ -8,10 +8,44 @@ export const HybridWebViewBridge = {
    */
   sendMessage: (message) => {
     if (window.HybridWebView) {
+      // Add haptic feedback if available
+      if (navigator.vibrate) {
+        navigator.vibrate(10); // subtle vibration
+      }
       window.HybridWebView.SendRawMessage(message);
     } else {
       console.log('HybridWebView not available:', message);
     }
+  },
+
+  /**
+   * Trigger native haptic feedback
+   * @param {string} type - The type of feedback: 'light', 'medium', or 'heavy'
+   */
+  hapticFeedback: (type = 'light') => {
+    if (window.HybridWebView) {
+      try {
+        window.HybridWebView.InvokeDotNet('TriggerHapticFeedback', [type]);
+      } catch (error) {
+        // Fallback to browser vibration API
+        if (navigator.vibrate) {
+          switch(type) {
+            case 'light': navigator.vibrate(10); break;
+            case 'medium': navigator.vibrate(20); break;
+            case 'heavy': navigator.vibrate([30, 30, 30]); break;
+            default: navigator.vibrate(10);
+          }
+        }
+      }
+    }
+  },
+
+  /**
+   * Check if app is running in a native container
+   * @returns {boolean} - True if running in native container
+   */
+  isRunningNative: () => {
+    return !!window.HybridWebView;
   },
 
   /**

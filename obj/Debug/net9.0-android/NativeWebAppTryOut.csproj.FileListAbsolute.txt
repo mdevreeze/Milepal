@@ -1409,10 +1409,12 @@
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/index.html
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/package-lock.json
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/package.json
-/home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/assets/index.e4a790eb.css
-/home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/assets/main.a7675879.js
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/Web/src/App.jsx
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/Web/src/components/RunPlanCard.jsx
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/Web/src/components/WelcomeScreen.jsx
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/Web/src/index.jsx
 /home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/Web/src/utils/HybridWebViewBridge.js
+/home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/manifest.json
+/home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/assets/index.css
+/home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/assets/main.js
+/home/michael/Projects/NativeWebAppTryOut/obj/Debug/net9.0-android/assets/wwwroot/assets/vendor.js

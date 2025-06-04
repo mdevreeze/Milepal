@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#ffffff" />
   <title>RunPlan - Your Personal Run Schedule Planner</title>
   <link rel="icon" href="data:,">
   <script src="scripts/HybridWebView.js"></script>
-  <script type="module" crossorigin src="/assets/main.a7675879.js"></script>
-  <link rel="stylesheet" href="/assets/index.e4a790eb.css">
+  <script src="scripts/NativeAppBehavior.js" defer></script>
+  <script type="module" crossorigin src="/assets/main.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor.js">
+  <link rel="stylesheet" href="/assets/index.css">
 </head>
 <body>
   <div id="app" class="min-h-screen"></div>

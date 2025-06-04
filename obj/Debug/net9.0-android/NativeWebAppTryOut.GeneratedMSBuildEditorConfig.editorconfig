@@ -55,11 +55,11 @@ build_metadata.AdditionalFiles.ManifestResourceName = NativeWebAppTryOut.Resourc
 build_metadata.AdditionalFiles.TargetPath = Resources/Styles/Styles.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources/Styles/Styles.xaml
 
-[/home/michael/Projects/NativeWebAppTryOut/Resources/Raw/wwwroot/assets/index.e4a790eb.css]
+[/home/michael/Projects/NativeWebAppTryOut/Resources/Raw/wwwroot/assets/index.css]
 build_metadata.AdditionalFiles.GenKind = Css
-build_metadata.AdditionalFiles.ManifestResourceName = NativeWebAppTryOut.Resources.Raw.wwwroot.assets.index.e4a790eb.css
-build_metadata.AdditionalFiles.TargetPath = Resources/Raw/wwwroot/assets/index.e4a790eb.css
-build_metadata.AdditionalFiles.RelativePath = Resources/Raw/wwwroot/assets/index.e4a790eb.css
+build_metadata.AdditionalFiles.ManifestResourceName = NativeWebAppTryOut.Resources.Raw.wwwroot.assets.index.css
+build_metadata.AdditionalFiles.TargetPath = Resources/Raw/wwwroot/assets/index.css
+build_metadata.AdditionalFiles.RelativePath = Resources/Raw/wwwroot/assets/index.css
 
 [/home/michael/Projects/NativeWebAppTryOut/Web/node_modules/tailwindcss/base.css]
 build_metadata.AdditionalFiles.GenKind = Css
@@ -120,3 +120,9 @@ build_metadata.AdditionalFiles.GenKind = Css
 build_metadata.AdditionalFiles.ManifestResourceName = NativeWebAppTryOut.Web.styles.app.css
 build_metadata.AdditionalFiles.TargetPath = Web/styles/app.css
 build_metadata.AdditionalFiles.RelativePath = Web/styles/app.css
+
+[/home/michael/Projects/NativeWebAppTryOut/Web/styles/native-app.css]
+build_metadata.AdditionalFiles.GenKind = Css
+build_metadata.AdditionalFiles.ManifestResourceName = NativeWebAppTryOut.Web.styles.native-app.css
+build_metadata.AdditionalFiles.TargetPath = Web/styles/native-app.css
+build_metadata.AdditionalFiles.RelativePath = Web/styles/native-app.css

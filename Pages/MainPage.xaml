@@ -5,7 +5,7 @@
              x:Class="NativeWebAppTryOut.Pages.MainPage"
              x:DataType="pageModels:MainPageModel"
              Title="{Binding Title}">
-    <Grid RowDefinitions="Auto,*"
+    <Grid RowDefinitions="*"
         ColumnDefinitions="*">
         <HybridWebView Grid.Row="0"
             x:Name="WebView"
@@ -14,11 +14,11 @@
             VerticalOptions="Fill"
             BackgroundColor="White" />
 
-        <ActivityIndicator 
-            IsRunning="{Binding IsLoading}" 
-            IsVisible="{Binding IsLoading}"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Color="{StaticResource Primary}" />
+        <!-- <ActivityIndicator  -->
+        <!--     IsRunning="{Binding IsLoading}"  -->
+        <!--     IsVisible="{Binding IsLoading}" -->
+        <!--     HorizontalOptions="Center" -->
+        <!--     VerticalOptions="Center" -->
+        <!--     Color="{StaticResource Primary}" /> -->
     </Grid>
 </ContentPage>
