@@ -19,8 +19,10 @@ export interface RunningSchedule {
   workouts: WorkoutDay[];
 }
 
-export interface UserPreferences {
-  weeklyDistance?: number; // in kilometers
-  preferredUnit: 'km' | 'mi';
-  restDays: number[];
+export interface ScheduleInstance {
+  id: string;
+  scheduleId: string;
+  startDate: Date;
+  isActive: boolean;
+  completedWorkouts: Set<string>;
 }

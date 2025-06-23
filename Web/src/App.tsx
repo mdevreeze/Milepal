@@ -2,14 +2,11 @@ import { Component, createSignal, Show } from 'solid-js';
 import Header from './components/Header';
 import Home from './pages/Home';
 import ScheduleDetail from './pages/ScheduleDetail';
-import { RunningSchedule, UserPreferences } from './types';
+import {RunningSchedule, ScheduleInstance} from "./types";
 
 const App: Component = () => {
   const [selectedSchedule, setSelectedSchedule] = createSignal<RunningSchedule | null>(null);
-  const [userPreferences, setUserPreferences] = createSignal<UserPreferences>({
-    preferredUnit: 'km',
-    restDays: [0, 6] // Sunday and Saturday by default
-  });
+  const [activeSchedule, setActiveSchedule] = createSignal<ScheduleInstance | null>(null);
 
   const handleSelectSchedule = (schedule: RunningSchedule) => {
     // Ensure the schedule object is complete before setting it
@@ -34,15 +31,24 @@ const App: Component = () => {
     }
   };
 
-  const handleBack = () => {
-    setSelectedSchedule(null);
-    window.scrollTo(0, 0);
+  const handleStartSchedule = (startDate: Date) => {
+    const schedule = selectedSchedule();
+    if (schedule) {
+      const instance: ScheduleInstance = {
+        id: crypto.randomUUID(),
+        scheduleId: schedule.id,
+        startDate,
+        isActive: true,
+        completedWorkouts: new Set()
+      };
+      setActiveSchedule(instance);
+    }
   };
 
-  const handleSavePreferences = (preferences: UserPreferences) => {
-    setUserPreferences(preferences);
-    // In a real app, you might save this to localStorage or a backend
-    alert('Your preferences have been saved!');
+  const handleBack = () => {
+    setSelectedSchedule(null);
+    setActiveSchedule(null);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -57,9 +63,9 @@ const App: Component = () => {
           {(schedule) => (
             <ScheduleDetail
               schedule={schedule()}
-              userPreferences={userPreferences()}
-              onSavePreferences={handleSavePreferences}
               onBack={handleBack}
+              onStartSchedule={handleStartSchedule}
+              activeSchedule={activeSchedule()}
             />
           )}
         </Show>

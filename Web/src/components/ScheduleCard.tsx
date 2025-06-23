@@ -40,8 +40,8 @@ const ScheduleCard: Component<ScheduleCardProps> = (props) => {
   };
 
   return (
-    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
-      <div class="p-5">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow h-full flex flex-col">
+      <div class="p-5 flex flex-col flex-1">
         <div class="flex justify-between items-start mb-3">
           <h3 class="text-lg font-bold">{props.schedule.name}</h3>
           <span class={`text-xs px-2 py-1 rounded-full uppercase font-semibold ${difficultyColor()}`}>
@@ -51,6 +51,7 @@ const ScheduleCard: Component<ScheduleCardProps> = (props) => {
 
         <p class="text-gray-600 mb-3">{props.schedule.goal}</p>
 
+
         <div class="flex flex-col gap-2 mb-4">
           <div class="flex items-center text-gray-500 text-sm">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -58,6 +59,8 @@ const ScheduleCard: Component<ScheduleCardProps> = (props) => {
             </svg>
             <span>{props.schedule.duration} weeks</span>
           </div>
+
+          <div class="flex-grow"></div>
 
           <div class="flex flex-wrap gap-1">
             {workoutTypes().map(type => (
@@ -69,7 +72,7 @@ const ScheduleCard: Component<ScheduleCardProps> = (props) => {
           </div>
         </div>
 
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3 mt-auto">
           <button 
             onClick={() => props.onSelect(props.schedule)}
             class="w-full bg-sky-500 hover:bg-sky-600 text-white py-2 px-4 rounded-md transition-colors font-medium"
@@ -77,16 +80,6 @@ const ScheduleCard: Component<ScheduleCardProps> = (props) => {
             Select Plan
           </button>
 
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              // Future feature: preview plan details in a modal
-              alert(`Preview coming soon for ${props.schedule.name}`);
-            }}
-            class="w-full bg-white hover:bg-gray-50 text-sky-600 border border-sky-500 py-2 px-4 rounded-md transition-colors"
-          >
-            Preview Details
-          </button>
         </div>
       </div>
     </div>
