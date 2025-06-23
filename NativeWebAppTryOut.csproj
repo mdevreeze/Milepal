@@ -49,17 +49,6 @@
         <MauiAsset Include="Web\.gitignore">
           <LogicalName>wwwroot/.gitignore</LogicalName>
         </MauiAsset>
-        <MauiAsset Include="Web\package-lock.json">
-          <LogicalName>wwwroot/package-lock.json</LogicalName>
-        </MauiAsset>
-        <MauiAsset Include="Web\package.json">
-          <LogicalName>wwwroot/package.json</LogicalName>
-        </MauiAsset>
-        <MauiAsset Include="Web\src\App.jsx" />
-        <MauiAsset Include="Web\src\components\RunPlanCard.jsx" />
-        <MauiAsset Include="Web\src\components\WelcomeScreen.jsx" />
-        <MauiAsset Include="Web\src\index.jsx" />
-        <MauiAsset Include="Web\src\utils\HybridWebViewBridge.js" />
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#17171a"/>
 
         <!-- Splash Screen -->
@@ -92,7 +81,6 @@
     <ItemGroup>
       <Folder Include="Models\" />
       <Folder Include="Services\" />
-      <Folder Include="Utilities\" />
     </ItemGroup>
 
 </Project>

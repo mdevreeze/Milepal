@@ -6,6 +6,13 @@
     <members>
         <member name="T:NativeWebAppTryOut.PageModels.MainPageModel">
             <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:NativeWebAppTryOut.PageModels.MainPageModel.Title">
+            <inheritdoc cref="F:NativeWebAppTryOut.PageModels.MainPageModel._title"/>
+        </member>
+        <member name="P:NativeWebAppTryOut.PageModels.MainPageModel.IsLoading">
+            <inheritdoc cref="F:NativeWebAppTryOut.PageModels.MainPageModel._isLoading"/>
         </member>
         <member name="F:NativeWebAppTryOut.PageModels.MainPageModel.appearingCommand">
             <summary>The backing field for <see cref="P:NativeWebAppTryOut.PageModels.MainPageModel.AppearingCommand"/>.</summary>
@@ -138,6 +145,30 @@
             <param name = "easing">The easing function to be used in the animation</param>
             <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
             <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs">
+            <summary>
+            A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instances
+            for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Title">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Title" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsLoading">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsLoading" generated properties.</summary>
+        </member>
+        <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
+            <summary>
+            A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instances
+            for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Title">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Title" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsLoading">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsLoading" generated properties.</summary>
         </member>
     </members>
 </doc>

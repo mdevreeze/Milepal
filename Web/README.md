@@ -30,7 +30,52 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 ## Deployment
+# RunScheduler App
 
+A modern running schedule application built with SolidJS and Tailwind CSS. This app helps runners create and follow training plans to achieve their running goals.
+
+## Features
+
+- Three default running schedule options for different skill levels
+- Weekly workout view with detailed descriptions
+- Mobile-first responsive design
+- User preference settings for units and rest days
+- Modern UI built with Tailwind CSS and Ark UI components
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm/pnpm
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+### Building for Production
+
+```bash
+npm run build
+npm run serve
+```
+
+## Technologies Used
+
+- SolidJS 1.9.5 - Reactive JavaScript UI library
+- TypeScript 5.7.2 - Type-safe JavaScript
+- Tailwind CSS 4.0.7 - Utility-first CSS framework
+- Ark UI for SolidJS 5.11.0 - Accessible UI components
+- Vite 6.0.0 - Next-generation frontend tooling
+
+## License
+
+MIT
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
 
 ## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
