@@ -3,6 +3,8 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+Resources/Raw/wwwroot/**
+
 # dotenv files
 .env
 

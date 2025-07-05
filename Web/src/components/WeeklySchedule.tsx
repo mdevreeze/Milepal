@@ -1,13 +1,14 @@
 import {Component, createMemo, createSignal} from 'solid-js';
 import {RunningSchedule, WorkoutDay} from '../types';
+import { UserPreferences, convertDistance, getDistanceUnitLabel } from '../utils/userPreferences';
 
 interface WeeklyScheduleProps {
   schedule: RunningSchedule;
+  userPreferences: UserPreferences;
 }
 
 const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
   const [currentWeek, setCurrentWeek] = createSignal(1);
-  const [viewMode, setViewMode] = createSignal<'list' | 'calendar'>('list');
 
   const totalWeeks = () => props.schedule.duration || 1;
 
@@ -23,11 +24,6 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
         workout => workout && workout.day >= startDay && workout.day <= endDay
     );
   });
-
-  const getWorkoutForDay = (dayOfWeek: number): WorkoutDay | undefined => {
-    const dayInSchedule = (currentWeek() - 1) * 7 + dayOfWeek + 1;
-    return weeklyWorkouts().find(w => w.day === dayInSchedule);
-  };
 
   const nextWeek = () => {
     if (currentWeek() < totalWeeks()) {
@@ -45,7 +41,8 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
 
   const weekSummary = createMemo(() => {
     const workouts = weeklyWorkouts();
-    const totalDistance = workouts.reduce((sum, w) => sum + (w.distance || 0), 0);
+    const totalDistanceKm = workouts.reduce((sum, w) => sum + (w.distance || 0), 0);
+    const totalDistance = convertDistance(totalDistanceKm, props.userPreferences.distanceUnit);
     const totalDuration = workouts.reduce((sum, w) => sum + (w.duration || 0), 0);
 
     const typeCounts: Record<string, number> = {};
@@ -67,21 +64,6 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold">Weekly Schedule</h2>
         <div class="flex items-center">
-          <div class="mr-4 flex bg-gray-100 rounded-lg p-1">
-            <button 
-              onClick={() => setViewMode('list')}
-              class={`px-3 py-1 rounded-md text-sm ${viewMode() === 'list' ? 'bg-white shadow-sm' : 'text-gray-600'}`}
-            >
-              List
-            </button>
-            <button 
-              onClick={() => setViewMode('calendar')}
-              class={`px-3 py-1 rounded-md text-sm ${viewMode() === 'calendar' ? 'bg-white shadow-sm' : 'text-gray-600'}`}
-            >
-              Calendar
-            </button>
-          </div>
-
           <div class="flex items-center space-x-2">
             <button 
               onClick={() => prevWeek()} 
@@ -113,7 +95,7 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <span class="block text-sm text-gray-500">Total Distance</span>
-            <span class="text-lg font-bold">{weekSummary().totalDistance} km</span>
+            <span class="text-lg font-bold">{weekSummary().totalDistance.toFixed(1)} {getDistanceUnitLabel(props.userPreferences.distanceUnit)}</span>
           </div>
           <div>
             <span class="block text-sm text-gray-500">Total Duration</span>
@@ -163,7 +145,8 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
               );
 
               // Calculate week totals
-              const weekDistance = thisWeekWorkouts.reduce((sum, w) => sum + (w.distance || 0), 0);
+              const weekDistanceKm = thisWeekWorkouts.reduce((sum, w) => sum + (w.distance || 0), 0);
+              const weekDistance = convertDistance(weekDistanceKm, props.userPreferences.distanceUnit);
 
               // Get dominant workout type
               const typeCounts: Record<string, number> = {};
@@ -202,7 +185,7 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
                     Week {weekNum}
                   </div>
                   <div class="text-center text-sm font-bold mb-2">
-                    {weekDistance.toFixed(1)} km
+                    {weekDistance.toFixed(1)} {getDistanceUnitLabel(props.userPreferences.distanceUnit)}
                   </div>
                   <div class="flex justify-center gap-2 mt-auto">
                     {Object.keys(typeCounts).map(type => {
@@ -230,7 +213,6 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
       </div>
 
       {/* Detailed Weekly View */}
-      {viewMode() === 'list' ? (
         <div class="space-y-3">
           {weeklyWorkouts().map(workout => (
             <div class="border rounded-lg p-4 hover:shadow-md transition-shadow border-gray-200 bg-white shadow-sm">
@@ -246,7 +228,7 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
                 <div class="flex space-x-2">
                   {workout.distance && (
                     <span class="inline-flex items-center text-sm px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700">
-                      {workout.distance} km
+                      {convertDistance(workout.distance, props.userPreferences.distanceUnit).toFixed(1)} {getDistanceUnitLabel(props.userPreferences.distanceUnit)}
                     </span>
                   )}
                   {workout.duration && (
@@ -260,54 +242,6 @@ const WeeklySchedule: Component<WeeklyScheduleProps> = (props) => {
             </div>
           ))}
         </div>
-      ) : (
-        <div class="grid grid-cols-7 gap-3">
-          {Array.from({ length: 7 }).map((_, index) => {
-            const workout = getWorkoutForDay(index);
-            const isEmpty = !workout;
-
-            return (
-              <div class={`border rounded-lg ${isEmpty ? 'border-dashed border-gray-200 bg-gray-50' : 'border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow'} p-3 min-h-[150px]`}>
-                <div class="text-sm font-medium mb-2">{dayNames[index]}</div>
-                {!isEmpty ? (
-                  <>
-                    <div class={`inline-block px-2 py-1 rounded-full text-xs capitalize mb-2 ${(() => {
-                      switch (workout.type) {
-                        case 'easy': return 'bg-green-100 text-green-800';
-                        case 'tempo': return 'bg-yellow-100 text-yellow-800';
-                        case 'intervals': return 'bg-red-100 text-red-800';
-                        case 'long': return 'bg-purple-100 text-purple-800';
-                        case 'rest': return 'bg-gray-100 text-gray-800';
-                        case 'race': return 'bg-pink-100 text-pink-800';
-                        default: return 'bg-gray-100 text-gray-800';
-                      }
-                    })()}`}>
-                      {workout.type}
-                    </div>
-                    <div class="flex flex-col gap-1 mt-1">
-                      {workout.distance && (
-                        <div class="text-sm inline-flex items-center text-xs px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 w-fit">
-                          {workout.distance} km
-                        </div>
-                      )}
-                      {workout.duration && (
-                        <div class="text-sm inline-flex items-center text-xs px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 w-fit">
-                          {workout.duration} min
-                        </div>
-                      )}
-                    </div>
-                    <p class="text-xs text-gray-600 mt-2 line-clamp-3">{workout.description}</p>
-                  </>
-                ) : (
-                  <div class="flex items-center justify-center h-full text-sm text-gray-400">
-                    Rest Day
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 };

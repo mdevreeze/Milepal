@@ -19,10 +19,18 @@ export interface RunningSchedule {
   workouts: WorkoutDay[];
 }
 
+export interface CompletedWorkout {
+  workoutKey: string; // Format: "week-day" e.g., "1-3"
+  completedDate: Date;
+  rating?: number; // 1-5 stars
+  notes?: string;
+}
+
 export interface ScheduleInstance {
   id: string;
   scheduleId: string;
   startDate: Date;
   isActive: boolean;
-  completedWorkouts: Set<string>;
+  completedWorkouts: Set<string>; // Keep for backwards compatibility
+  workoutHistory: CompletedWorkout[]; // New detailed tracking
 }

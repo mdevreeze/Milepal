@@ -1,9 +1,8 @@
-import { Component, createSignal, Show } from 'solid-js';
+import { Component, Show, onMount, createSignal } from 'solid-js';
 import { RunningSchedule, ScheduleInstance } from '../types';
 import WeeklySchedule from '../components/WeeklySchedule';
-import ScheduleDetailHeader from '../components/ScheduleDetailHeader';
 import ScheduleSummary from '../components/ScheduleSummary';
-import CalendarView from '../components/CalendarView';
+import { UserPreferences, loadUserPreferences } from '../utils/userPreferences';
 
 interface ScheduleDetailProps {
   schedule: RunningSchedule;
@@ -13,55 +12,86 @@ interface ScheduleDetailProps {
 }
 
 const ScheduleDetail: Component<ScheduleDetailProps> = (props) => {
-  const [activeTab, setActiveTab] = createSignal<'schedule' | 'calendar'>('schedule');
+  const [userPreferences, setUserPreferences] = createSignal<UserPreferences>(loadUserPreferences());
+
+  // Load preferences on mount
+  onMount(() => {
+    const prefs = loadUserPreferences();
+    setUserPreferences(prefs);
+  });
 
   const isStarted = () => props.activeSchedule?.scheduleId === props.schedule.id;
 
   return (
-    <div>
-      <ScheduleDetailHeader 
-        schedule={props.schedule} 
-        onBack={props.onBack}
-        onStartSchedule={props.onStartSchedule}
-        activeSchedule={props.activeSchedule}
-      />
-
-      <div class="container mx-auto px-4 py-6">
-        <Show when={!isStarted()}>
-          <ScheduleSummary schedule={props.schedule} />
-        </Show>
-
-        {/* Tab Navigation */}
-        <div class="flex border-b border-gray-200 mb-6">
+    <div class="pb-20">
+      <div class="px-4 py-6">
+        <div class="flex items-center mb-6">
           <button
-            class={`py-2 px-4 font-medium ${activeTab() === 'schedule' ? 'text-sky-600 border-b-2 border-sky-500' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('schedule')}
+            onClick={props.onBack}
+            class="mr-3 p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            Weekly Schedule
+            <svg class="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
-          <Show when={isStarted()}>
-            <button
-              class={`py-2 px-4 font-medium ${activeTab() === 'calendar' ? 'text-sky-600 border-b-2 border-sky-500' : 'text-gray-500 hover:text-gray-700'}`}
-              onClick={() => setActiveTab('calendar')}
-            >
-              Calendar View
-            </button>
-          </Show>
+          <h1 class="text-xl font-semibold text-gray-900">{props.schedule.name}</h1>
         </div>
 
-        {/* Tab Content */}
-        <div class={activeTab() === 'schedule' ? 'block' : 'hidden'}>
-          <WeeklySchedule schedule={props.schedule} />
-        </div>
-        
-        <Show when={isStarted()}>
-          <div class={activeTab() === 'calendar' ? 'block' : 'hidden'}>
-            <CalendarView 
-              schedule={props.schedule} 
-              activeSchedule={props.activeSchedule!} 
-            />
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+          <div class="flex flex-col space-y-3">
+            <p class="text-gray-600 text-sm">{props.schedule.goal || 'Improve your running performance'}</p>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class={`px-2 py-1 rounded-full text-xs font-semibold ${
+                  props.schedule.difficulty === 'beginner' ? 'bg-green-100 text-green-800' :
+                  props.schedule.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                  props.schedule.difficulty === 'advanced' ? 'bg-red-100 text-red-800' :
+                  'bg-gray-100 text-gray-800'
+                }`}>
+                  {props.schedule.difficulty}
+                </span>
+                <span class="text-gray-600 flex items-center text-sm">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {props.schedule.duration} weeks
+                </span>
+              </div>
+
+              <div>
+                <Show
+                  when={!isStarted()}
+                  fallback={
+                    <div class="flex items-center px-3 py-2 bg-green-100 text-green-800 rounded-md text-sm">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Started
+                    </div>
+                  }
+                >
+                  <button
+                    onClick={() => {
+                      const today = new Date();
+                      props.onStartSchedule(today);
+                    }}
+                    class="px-4 py-2 bg-sky-500 text-white rounded-md font-medium hover:bg-sky-600 transition-colors text-sm"
+                  >
+                    Start Plan
+                  </button>
+                </Show>
+              </div>
+            </div>
           </div>
+        </div>
+        <Show when={!isStarted()}>
+          <ScheduleSummary schedule={props.schedule} userPreferences={userPreferences()} />
         </Show>
+
+        <div class="mt-6">
+          <WeeklySchedule schedule={props.schedule} userPreferences={userPreferences()} />
+        </div>
       </div>
     </div>
   );

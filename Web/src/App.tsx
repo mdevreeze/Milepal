@@ -1,12 +1,31 @@
-import { Component, createSignal, Show } from 'solid-js';
-import Header from './components/Header';
-import Home from './pages/Home';
+import { Component, createSignal, Show, onMount, createEffect } from 'solid-js';
+import BottomNavigation from './components/BottomNavigation';
+import PageTransition from './components/PageTransition';
+import Schedules from './pages/Schedules';
+import Progress from './pages/Progress';
+import Profile from './pages/Profile';
 import ScheduleDetail from './pages/ScheduleDetail';
 import {RunningSchedule, ScheduleInstance} from "./types";
+import { saveActiveSchedule, loadActiveSchedule } from './utils/localStorage';
+import { markWorkoutComplete } from './utils/workoutUtils';
 
 const App: Component = () => {
   const [selectedSchedule, setSelectedSchedule] = createSignal<RunningSchedule | null>(null);
   const [activeSchedule, setActiveSchedule] = createSignal<ScheduleInstance | null>(null);
+  const [activeTab, setActiveTab] = createSignal<string>('schedules');
+
+  // Load active schedule from localStorage on mount
+  onMount(() => {
+    const stored = loadActiveSchedule();
+    if (stored) {
+      setActiveSchedule(stored);
+    }
+  });
+
+  // Save active schedule to localStorage whenever it changes
+  createEffect(() => {
+    saveActiveSchedule(activeSchedule());
+  });
 
   const handleSelectSchedule = (schedule: RunningSchedule) => {
     // Ensure the schedule object is complete before setting it
@@ -20,9 +39,6 @@ const App: Component = () => {
         goal: schedule.goal || 'improve your running performance',
         workouts: Array.isArray(schedule.workouts) ? schedule.workouts : []
       };
-
-      console.log('Selected schedule:', safeSchedule);
-      console.log(`Schedule has ${safeSchedule.workouts.length} workouts`);
 
       setSelectedSchedule(safeSchedule);
       window.scrollTo(0, 0);
@@ -39,7 +55,8 @@ const App: Component = () => {
         scheduleId: schedule.id,
         startDate,
         isActive: true,
-        completedWorkouts: new Set()
+        completedWorkouts: new Set(),
+        workoutHistory: []
       };
       setActiveSchedule(instance);
     }
@@ -47,44 +64,88 @@ const App: Component = () => {
 
   const handleBack = () => {
     setSelectedSchedule(null);
+    window.scrollTo(0, 0);
+  };
+
+  const handleClearSchedule = () => {
     setActiveSchedule(null);
     window.scrollTo(0, 0);
   };
 
-  return (
-    <div class="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
+  const handleMarkWorkoutComplete = (workoutKey: string, rating?: number, notes?: string) => {
+    const current = activeSchedule();
+    if (current) {
+      const updated = markWorkoutComplete(current, workoutKey, rating, notes);
+      setActiveSchedule(updated);
+    }
+  };
 
-      <main class="flex-1">
-        <Show
-          when={selectedSchedule()}
-          fallback={<Home onSelectSchedule={handleSelectSchedule} />}
-        >
-          {(schedule) => (
-            <ScheduleDetail
-              schedule={schedule()}
-              onBack={handleBack}
-              onStartSchedule={handleStartSchedule}
-              activeSchedule={activeSchedule()}
+  const handleTabChange = (tab: string) => {
+    if (tab === 'progress' && !activeSchedule()) {
+      return;
+    }
+    setActiveTab(tab);
+    // Clear selected schedule when changing tabs to go back to main view
+    setSelectedSchedule(null);
+  };
+
+  const renderCurrentView = () => {
+    if (selectedSchedule()) {
+      return (
+        <PageTransition pageKey={`schedule-${selectedSchedule()!.id}`}>
+          <ScheduleDetail
+            schedule={selectedSchedule()!}
+            onBack={handleBack}
+            onStartSchedule={handleStartSchedule}
+            activeSchedule={activeSchedule()}
+          />
+        </PageTransition>
+      );
+    }
+
+    switch (activeTab()) {
+      case 'schedules':
+        return (
+          <PageTransition pageKey="schedules">
+            <Schedules onSelectSchedule={handleSelectSchedule} />
+          </PageTransition>
+        );
+      case 'progress':
+        return (
+          <PageTransition pageKey="progress">
+            <Progress 
+              activeSchedule={activeSchedule()} 
+              onClearSchedule={handleClearSchedule}
+              onMarkWorkoutComplete={handleMarkWorkoutComplete}
             />
-          )}
-        </Show>
+          </PageTransition>
+        );
+      case 'profile':
+        return (
+          <PageTransition pageKey="profile">
+            <Profile activeSchedule={activeSchedule()} />
+          </PageTransition>
+        );
+      default:
+        return (
+          <PageTransition pageKey="schedules">
+            <Schedules onSelectSchedule={handleSelectSchedule} />
+          </PageTransition>
+        );
+    }
+  };
+
+  return (
+    <div class="min-h-screen bg-gray-50">
+      <main class="pb-16 relative">
+        {renderCurrentView()}
       </main>
 
-      <footer class="bg-gray-800 text-gray-300 py-6">
-        <div class="container mx-auto px-4">
-          <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-              <h3 class="text-white font-bold text-lg mb-2">RunScheduler</h3>
-              <p class="text-sm">Your personal running plan assistant</p>
-            </div>
-
-            <div class="text-sm">
-              <p>© {new Date().getFullYear()} RunScheduler. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <BottomNavigation
+        activeTab={activeTab()}
+        onTabChange={handleTabChange}
+        hasActiveSchedule={!!activeSchedule()}
+      />
     </div>
   );
 };

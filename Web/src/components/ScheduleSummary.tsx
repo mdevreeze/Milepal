@@ -1,8 +1,10 @@
 import { Component, createMemo } from 'solid-js';
 import { RunningSchedule, WorkoutType } from '../types';
+import { UserPreferences, convertDistance, getDistanceUnitLabel } from '../utils/userPreferences';
 
 interface ScheduleSummaryProps {
   schedule: RunningSchedule;
+  userPreferences: UserPreferences;
 }
 
 const ScheduleSummary: Component<ScheduleSummaryProps> = (props) => {
@@ -33,14 +35,16 @@ const ScheduleSummary: Component<ScheduleSummaryProps> = (props) => {
       return 0;
     }
 
-    return props.schedule.workouts.reduce((total, workout) => {
+    const totalKm = props.schedule.workouts.reduce((total, workout) => {
       return total + (workout.distance || 0);
     }, 0);
+    
+    return convertDistance(totalKm, props.userPreferences.distanceUnit);
   });
 
   const weeklyAvgDistance = createMemo(() => {
     if (props.schedule.duration <= 0) return 0;
-    return (totalDistance() / props.schedule.duration).toFixed(1);
+    return (totalDistance() / props.schedule.duration);
   });
 
   return (
@@ -54,7 +58,7 @@ const ScheduleSummary: Component<ScheduleSummaryProps> = (props) => {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         <div class="bg-white p-4 rounded-md shadow-sm">
           <h3 class="font-medium text-gray-900 mb-2">Weekly Distance</h3>
-          <p class="text-2xl font-bold text-sky-600">{weeklyAvgDistance()} km</p>
+          <p class="text-2xl font-bold text-sky-600">{weeklyAvgDistance().toFixed(1)} {getDistanceUnitLabel(props.userPreferences.distanceUnit)}</p>
           <p class="text-sm text-gray-500">average per week</p>
         </div>
 
@@ -73,7 +77,7 @@ const ScheduleSummary: Component<ScheduleSummaryProps> = (props) => {
 
         <div class="bg-white p-4 rounded-md shadow-sm">
           <h3 class="font-medium text-gray-900 mb-2">Total Distance</h3>
-          <p class="text-2xl font-bold text-sky-600">{totalDistance()} km</p>
+          <p class="text-2xl font-bold text-sky-600">{totalDistance().toFixed(1)} {getDistanceUnitLabel(props.userPreferences.distanceUnit)}</p>
           <p class="text-sm text-gray-500">over {props.schedule.duration} weeks</p>
         </div>
       </div>
