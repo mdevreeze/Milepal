@@ -31,6 +31,15 @@
 - **Offline-first** - works without internet connection
 - **No account required** - start using immediately
 
+## 🎨 Screenshots
+
+<div align="center">
+
+![Milepal Screenshot](screenshot.png)
+
+</div>
+
+
 ## 🛠️ Technology Stack
 
 ### Native Mobile App
@@ -80,7 +89,7 @@
    dotnet run
    ```
 
-4. **The app automatically connects to the dev server for hot reload! 🔥**
+4. **The app automatically connects to the dev server for hot reload**
 
 ## 📱 Platform Support
 
@@ -93,15 +102,6 @@ Only Android is supported at this time.
 | **Windows** | ❌ Not yet supported |  |
 | **macOS** | ❌ Not yet supported |  |
 
-## 🎨 Screenshots
-
-<div align="center">
-
-![Milepal Screenshot](screenshot.png)
-
-*Milepal's clean, intuitive interface designed for runners*
-
-</div>
 
 ## 🏗️ Project Structure
 
