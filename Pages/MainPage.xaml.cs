@@ -1,6 +1,6 @@
-﻿using NativeWebAppTryOut.Utilities;
+﻿using Milepal.Utilities;
 
-namespace NativeWebAppTryOut.Pages;
+namespace Milepal.Pages;
 
 public partial class MainPage : ContentPage
 {

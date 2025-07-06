@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace NativeWebAppTryOut;
+namespace Milepal;
 
 [Application]
 public class MainApplication : MauiApplication

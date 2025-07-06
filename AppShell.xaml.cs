@@ -2,7 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using Font = Microsoft.Maui.Font;
 
-namespace NativeWebAppTryOut;
+namespace Milepal;
 
 public partial class AppShell : Shell
 {

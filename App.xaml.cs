@@ -1,4 +1,4 @@
-﻿namespace NativeWebAppTryOut;
+﻿namespace Milepal;
 
 public partial class App : Application
 {

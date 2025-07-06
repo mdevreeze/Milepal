@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace NativeWebAppTryOut.Utilities;
+namespace Milepal.Utilities;
 
 public static class WebViewHelper
 {

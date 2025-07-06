@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeWebAppTryOut", "NativeWebAppTryOut.csproj", "{30B7EB79-11D5-4116-9486-DA0CA2DB6340}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milepal", "Milepal.csproj", "{30B7EB79-11D5-4116-9486-DA0CA2DB6340}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-namespace NativeWebAppTryOut.Data;
+namespace Milepal.Data;
 
 public static class Constants
 {

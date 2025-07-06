@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
 
-namespace NativeWebAppTryOut;
+namespace Milepal;
 
 public static class MauiProgram
 {
