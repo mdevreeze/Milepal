@@ -8,7 +8,7 @@
 
 ![Milepal](https://img.shields.io/badge/Platform-.NET%20MAUI-blue)
 ![Web Framework](https://img.shields.io/badge/Web-SolidJS-orange)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/License-GPLV3-green)
 
 </div>
 
