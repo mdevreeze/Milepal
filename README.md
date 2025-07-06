@@ -1,3 +1,7 @@
+<div align="center">
+
+![Milepal Logo](Resources/Splash/splash.png)
+
 # 🏃‍♂️ Milepal
 
 **Your personal running companion** - A modern hybrid mobile app that helps runners create, follow, and track their training plans.
@@ -5,6 +9,8 @@
 ![Milepal](https://img.shields.io/badge/Platform-.NET%20MAUI-blue)
 ![Web Framework](https://img.shields.io/badge/Web-SolidJS-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+</div>
 
 ## ✨ Features
 
@@ -89,7 +95,13 @@ Only Android is supported at this time.
 
 ## 🎨 Screenshots
 
-*Coming soon - app screenshots showcasing the beautiful UI*
+<div align="center">
+
+![Milepal Screenshot](screenshot.png)
+
+*Milepal's clean, intuitive interface designed for runners*
+
+</div>
 
 ## 🏗️ Project Structure
 
