@@ -4,6 +4,7 @@ import solidPlugin from 'vite-plugin-solid';
 
 export default defineConfig({
   plugins: [solidPlugin(), tailwindcss()],
+  base: './',
   server: {
     host: '0.0.0.0', // Accept connections from any IP
     port: 3000,
