@@ -30,7 +30,7 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 ## Deployment
-# RunScheduler App
+# Milepal App
 
 A modern running schedule application built with SolidJS and Tailwind CSS. This app helps runners create and follow training plans to achieve their running goals.
 

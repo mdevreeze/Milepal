@@ -19,6 +19,8 @@ const App: Component = () => {
     const stored = loadActiveSchedule();
     if (stored) {
       setActiveSchedule(stored);
+      // If there's an active schedule, start on the Progress tab
+      setActiveTab('progress');
     }
   });
 
@@ -47,11 +49,24 @@ const App: Component = () => {
     }
   };
 
+  const generateUUID = () => {
+    // Fallback for WebView compatibility
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    // Fallback UUID generation
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+
   const handleStartSchedule = (startDate: Date) => {
     const schedule = selectedSchedule();
     if (schedule) {
       const instance: ScheduleInstance = {
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         scheduleId: schedule.id,
         startDate,
         isActive: true,
@@ -136,8 +151,8 @@ const App: Component = () => {
   };
 
   return (
-    <div class="min-h-screen bg-gray-50">
-      <main class="pb-16 relative">
+    <div class="h-full bg-gray-50 flex flex-col">
+      <main class="flex-1 overflow-auto pb-16">
         {renderCurrentView()}
       </main>
 

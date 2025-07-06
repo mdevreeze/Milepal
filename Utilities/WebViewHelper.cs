@@ -28,6 +28,16 @@ public static class WebViewHelper
 #endif
     }
 
+    public static string GetWebViewSource()
+    {
+#if DEBUG
+        return GetDevServerUrl();
+#else
+        // Use bundled assets in release mode
+        return "wwwroot/index.html";
+#endif
+    }
+
     private static bool IsEmulator()
     {
 #if ANDROID

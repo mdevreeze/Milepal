@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Handlers;
 using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace NativeWebAppTryOut;
@@ -11,10 +10,6 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
-        builder.ConfigureMauiHandlers(handlers => {
-            // Register HybridWebView handler
-            handlers.AddHandler<HybridWebView, HybridWebViewHandler>();
-        });
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
@@ -33,11 +28,8 @@ public static class MauiProgram
                 fonts.AddFont("FluentSystemIcons-Regular.ttf", FluentUI.FontFamily);
             });
 
-        builder.Services.AddScoped<MainPageModel>();
 #if DEBUG
-        builder.Services.AddHybridWebViewDeveloperTools();
         builder.Logging.AddDebug();
-        builder.Services.AddLogging(configure => configure.AddDebug());
 #endif
 
         return builder.Build();

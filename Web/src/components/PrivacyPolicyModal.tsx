@@ -1,4 +1,4 @@
-import { Component, Show } from 'solid-js';
+import { Component, Show, createEffect } from 'solid-js';
 
 interface PrivacyPolicyModalProps {
   isOpen: boolean;
@@ -6,6 +6,20 @@ interface PrivacyPolicyModalProps {
 }
 
 const PrivacyPolicyModal: Component<PrivacyPolicyModalProps> = (props) => {
+  // Prevent background scrolling when modal is open
+  createEffect(() => {
+    if (props.isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  });
+
   const handleBackdropClick = (e: MouseEvent) => {
     if (e.target === e.currentTarget) {
       props.onClose();
@@ -15,25 +29,34 @@ const PrivacyPolicyModal: Component<PrivacyPolicyModalProps> = (props) => {
   return (
     <Show when={props.isOpen}>
       <div 
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-        onClick={handleBackdropClick}
+        class="fixed inset-0 z-[60] flex items-start justify-center p-4 pt-8"
+        style="position: fixed; top: 0; left: 0; right: 0; bottom: 0;"
       >
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+        <div 
+          class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={handleBackdropClick}
+        />
+        
+        <div class="relative bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto transform transition-all">
           {/* Header */}
-          <div class="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 class="text-xl font-semibold text-gray-900">Privacy Policy</h2>
-            <button
-              onClick={props.onClose}
-              class="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+          <button
+            onClick={props.onClose}
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <div class="p-6 border-b border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Privacy Policy</h2>
+            <p class="text-gray-600 text-sm">
+              Your privacy matters to us. Learn how we protect your data.
+            </p>
           </div>
 
           {/* Content */}
-          <div class="p-6 overflow-y-auto max-h-[60vh]">
+          <div class="p-6">
             <div class="prose prose-sm max-w-none text-gray-700 space-y-4">
               <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                 <div class="flex items-start">
@@ -54,7 +77,7 @@ const PrivacyPolicyModal: Component<PrivacyPolicyModalProps> = (props) => {
               <section>
                 <h3 class="text-lg font-semibold mb-3">What Data We Collect</h3>
                 <p class="mb-3">
-                  <strong>None.</strong> RunScheduler does not collect, store, or transmit any personal data to our servers or third parties.
+                  <strong>None.</strong> Milepal does not collect, store, or transmit any personal data to our servers or third parties.
                 </p>
               </section>
 
@@ -108,20 +131,6 @@ const PrivacyPolicyModal: Component<PrivacyPolicyModalProps> = (props) => {
                 </p>
               </section>
 
-              <section>
-                <h3 class="text-lg font-semibold mb-3">Changes to This Policy</h3>
-                <p class="mb-3">
-                  Our commitment to privacy will not change. Any updates to this policy will only clarify our privacy-first approach.
-                </p>
-              </section>
-
-              <section>
-                <h3 class="text-lg font-semibold mb-3">Contact</h3>
-                <p class="mb-3">
-                  If you have questions about this privacy policy, you can contact us. However, please note that we have no access to your personal running data.
-                </p>
-              </section>
-
               <div class="bg-sky-50 border border-sky-200 rounded-lg p-4 mt-6">
                 <p class="text-sm text-sky-800">
                   <strong>Last updated:</strong> {new Date().toLocaleDateString()}
@@ -131,10 +140,10 @@ const PrivacyPolicyModal: Component<PrivacyPolicyModalProps> = (props) => {
           </div>
 
           {/* Footer */}
-          <div class="flex justify-end p-6 border-t border-gray-200">
+          <div class="flex gap-3 p-6 border-t border-gray-200">
             <button
               onClick={props.onClose}
-              class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-md font-medium transition-colors"
+              class="flex-1 bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors"
             >
               Got it
             </button>

@@ -135,7 +135,7 @@ const Profile: Component<ProfileProps> = (props) => {
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h3 class="text-lg font-semibold mb-4">About</h3>
             <div class="text-sm text-gray-600 space-y-2">
-              <p><strong>RunScheduler</strong></p>
+              <p><strong>Milepal</strong></p>
               <p>Version 1.0.0</p>
               <p>Your personal running plan assistant</p>
             </div>

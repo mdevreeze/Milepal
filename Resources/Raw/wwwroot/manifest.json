@@ -1,6 +1,6 @@
 {
-  "name": "RunPlan",
-  "short_name": "RunPlan",
+  "name": "Milepal",
+  "short_name": "Milepal",
   "description": "Your Personal Run Schedule Planner",
   "start_url": "./",
   "display": "standalone",

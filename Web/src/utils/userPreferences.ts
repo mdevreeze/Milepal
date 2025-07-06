@@ -4,7 +4,7 @@ export interface UserPreferences {
   distanceUnit: DistanceUnit;
 }
 
-const USER_PREFERENCES_KEY = 'runScheduler_userPreferences';
+const USER_PREFERENCES_KEY = 'milepal_userPreferences';
 
 const defaultPreferences: UserPreferences = {
   distanceUnit: 'km'
