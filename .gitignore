@@ -4,6 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 Resources/Raw/wwwroot/**
+*.keystore
 
 # dotenv files
 .env
