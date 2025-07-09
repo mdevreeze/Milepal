@@ -162,6 +162,12 @@ dotnet build -f net9.0-android # Build for Android
    ```bash
    dotnet publish -c Release -f net9.0-android
    ```
+   **Or Build & Sign**
+
+   See https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-cli?view=net-maui-9.0
+   ```bash
+   dotnet publish -c Release -p:AndroidSdkDirectory=/home/michael/Android/Sdk -f net9.0-android -p:AndroidPackageFormats=apk -p:AndroidSigningKeyStore={keystore-file} -p:AndroidSigningKeyAlias={keyalias} -p:AndroidSigningKeyPass={password} -p:AndroidSigningStorePass={password}
+   ```
 
 3. **Assets are automatically bundled into the native app**
 
