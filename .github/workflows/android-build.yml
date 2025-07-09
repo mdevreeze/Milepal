@@ -1,0 +1,68 @@
+name: Android Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: Web/package-lock.json
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install NPM dependencies
+        run: |
+          cd Web
+          npm ci
+
+      - name: Build Web assets
+        run: |
+          cd Web
+          npm run build
+
+      - name: Decode Android Keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          echo $ANDROID_KEYSTORE_BASE64 | base64 -d > keystore.jks
+
+      - name: Build and Sign Release APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          dotnet publish -c Release -f net9.0-android \
+            -p:AndroidPackageFormats=apk \
+            -p:AndroidSigningKeyStore=keystore.jks \
+            -p:AndroidSigningKeyAlias=$KEY_ALIAS \
+            -p:AndroidSigningKeyPass=$KEY_PASSWORD \
+            -p:AndroidSigningStorePass=$KEYSTORE_PASSWORD
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: bin/Release/net9.0-android/*.apk
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}

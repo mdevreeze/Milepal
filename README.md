@@ -9,6 +9,7 @@
 ![Milepal](https://img.shields.io/badge/Platform-.NET%20MAUI-blue)
 ![Web Framework](https://img.shields.io/badge/Web-SolidJS-orange)
 ![License](https://img.shields.io/badge/License-GPLV3-green)
+![Build](https://github.com/yourusername/milepal/actions/workflows/android-build.yml/badge.svg)
 
 </div>
 
@@ -170,6 +171,15 @@ dotnet build -f net9.0-android # Build for Android
    ```
 
 3. **Assets are automatically bundled into the native app**
+
+## 🚀 Continuous Integration/Deployment
+
+This project uses GitHub Actions for automated builds and releases:
+
+- Tagged commits (e.g., `v1.0.0`) trigger a signed release build
+- Releases are automatically published to GitHub Releases
+
+See [release-process.md](docs/release-process.md) for details on creating releases.
 
 ## 📄 License
 
