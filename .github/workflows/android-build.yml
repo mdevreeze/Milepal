@@ -19,6 +19,11 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      - name: Install .NET MAUI Workloads
+        run: |
+          dotnet workload install maui-android
+          dotnet workload list
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
