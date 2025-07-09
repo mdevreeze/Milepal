@@ -82,4 +82,9 @@
       <Folder Include="Resources\Images\" />
     </ItemGroup>
 
+    <!-- Build Web Assets Before Publishing -->
+    <Target Name="BuildWebAssets" BeforeTargets="BeforePublish">
+        <Exec Command="npm run build" WorkingDirectory="Web" />
+    </Target>
+
 </Project>
